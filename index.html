@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focus Timer</title>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="preconnect" href="https://plus.unsplash.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div class="background-layer" aria-hidden="true">
+      <img
+        id="bgImage"
+        class="background-image"
+        src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80"
+        alt=""
+      >
+      <div class="background-overlay"></div>
+      <div class="background-glow background-glow-left"></div>
+      <div class="background-glow background-glow-right"></div>
+    </div>
+
+    <main class="content">
+      <section class="timer-card" aria-labelledby="timerTitle">
+        <div class="card-surface">
+          <div class="card-header">
+            <div class="hero-copy">
+              <p class="eyebrow">Focus Timer</p>
+              <h1 id="timerTitle">A calm place for deep work</h1>
+              <p class="card-subtitle">Build a steady rhythm with guided focus blocks, mindful breaks, and your own ambient mix.</p>
+            </div>
+
+            <div class="header-actions">
+              <span class="live-pill">Live scene</span>
+              <button id="refreshSceneButton" class="scene-button" type="button">New Scene</button>
+            </div>
+          </div>
+
+          <div class="utility-row">
+            <div class="session-presets" aria-label="Focus length presets">
+              <button class="preset-button is-active" type="button" data-minutes="25" aria-pressed="true">25 min</button>
+              <button class="preset-button" type="button" data-minutes="50" aria-pressed="false">50 min</button>
+              <button class="preset-button" type="button" data-minutes="90" aria-pressed="false">90 min</button>
+            </div>
+            <p class="session-meta" id="sessionMeta">25-minute focus sprint</p>
+          </div>
+
+          <div class="mode-switch" aria-label="Session modes">
+            <button class="mode-button is-active" type="button" data-mode="focus" aria-pressed="true">Focus</button>
+            <button class="mode-button" type="button" data-mode="shortBreak" aria-pressed="false">Short break</button>
+            <button class="mode-button" type="button" data-mode="longBreak" aria-pressed="false">Long break</button>
+          </div>
+
+          <p class="timer-label" id="timerState">Ready</p>
+
+          <div class="timer-display" id="timerDisplay" aria-live="polite">25:00</div>
+
+          <div class="progress-track" aria-hidden="true">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+          <div class="controls" aria-label="Timer controls">
+            <button id="startButton" class="control-button control-button-primary" type="button">Start</button>
+            <button id="pauseButton" class="control-button" type="button">Pause</button>
+            <button id="resetButton" class="control-button" type="button">Reset</button>
+          </div>
+
+          <section class="planner-panel" aria-labelledby="taskHeading">
+            <div class="planner-copy">
+              <p class="panel-label" id="taskHeading">Current task</p>
+              <p class="task-summary" id="taskSummary">Add a task to anchor this session.</p>
+            </div>
+
+            <label class="task-field" for="taskInput">
+              <span class="sr-only">Current task</span>
+              <input id="taskInput" class="task-input" type="text" maxlength="80" placeholder="What are you focusing on?" autocomplete="off">
+            </label>
+
+            <div class="planner-actions">
+              <button id="saveTaskButton" class="secondary-button" type="button">Save task</button>
+              <button id="clearTaskButton" class="secondary-button" type="button">Clear</button>
+            </div>
+          </section>
+
+          <section class="stats-grid" aria-label="Session stats">
+            <article class="stat-card">
+              <span class="stat-label">Focus sessions</span>
+              <strong class="stat-value" id="statSessions">0</strong>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">Focus minutes</span>
+              <strong class="stat-value" id="statMinutes">0</strong>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">Current mode</span>
+              <strong class="stat-value" id="statMode">Focus</strong>
+            </article>
+          </section>
+
+          <p class="timer-hint" id="timerHint">Your 25 minute focus session is ready.</p>
+          <p class="keyboard-hint">Keyboard: press <kbd>Space</kbd> to start or pause, <kbd>R</kbd> to reset.</p>
+        </div>
+      </section>
+
+      <section class="sound-dock" aria-label="Ambient sounds">
+        <button class="sound-toggle" type="button" data-sound="rain" aria-pressed="false">
+          <span class="sound-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="presentation">
+              <path d="M7.5 15.5c-.3 0-.6-.1-.8-.4-.4-.4-.4-1 0-1.4l1.6-1.6c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-1.6 1.6c-.2.3-.4.4-.6.4Z"/>
+              <path d="M11 18.5c-.3 0-.6-.1-.8-.4-.4-.4-.4-1 0-1.4l3.4-3.4c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-3.4 3.4c-.2.3-.4.4-.6.4Z"/>
+              <path d="M15.5 15.5c-.3 0-.6-.1-.8-.4-.4-.4-.4-1 0-1.4l1.6-1.6c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-1.6 1.6c-.2.3-.4.4-.6.4Z"/>
+              <path d="M7 11a5 5 0 0 1 .5-9.9A6.5 6.5 0 0 1 20 5a4 4 0 1 1-.2 8H7Z"/>
+            </svg>
+          </span>
+          <span class="sound-meta">
+            <span class="sound-name">Rain</span>
+            <span class="sound-state">Off</span>
+          </span>
+        </button>
+
+        <button class="sound-toggle" type="button" data-sound="forest" aria-pressed="false">
+          <span class="sound-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="presentation">
+              <path d="M12 2 7.4 8h2.1L6 13h2.4L5 18h5.5V22h3V18H19l-3.4-5h2.4L14.5 8h2.1L12 2Z"/>
+            </svg>
+          </span>
+          <span class="sound-meta">
+            <span class="sound-name">Forest</span>
+            <span class="sound-state">Off</span>
+          </span>
+        </button>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
