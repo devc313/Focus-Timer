@@ -1,4 +1,4 @@
-# Vibe1 - Focus Timer
+# Focus Timer
 
 A calm, single-page focus timer built for deep work. The app combines guided focus sessions, break modes, task tracking, ambient sound generators, and rotating nature backgrounds in a polished glassmorphism interface.
 
